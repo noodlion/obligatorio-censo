@@ -5,7 +5,7 @@ const initialState = {
 }
 
 export const PersonaSlice = createSlice({
-    name: personas,
+    name: "personas",
     initialState,
     reducers: {
         guardarPersonas: (state, action) => {

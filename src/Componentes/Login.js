@@ -1,75 +1,20 @@
-// import React from "react";
-// import { Link, useNavigate } from "react-router-dom"
-// import { useRef, useState } from "react";
-// import "../Styles/Login.css";
-
-// const Login = () => {
-//   const usuario = useRef(null);
-//   const password = useRef(null);
-
-//   let navigate = useNavigate();
-
-//   const [error, setError] = useState(false);
-
-//   //handler para el boton on Click
-//   const onIngresarHandler = () => {
-
-//     const censo = "https://censo.develotion.com";
-//     const userCampo = user.current.value;
-//     const passCampo = password.current.value;
-//     //console.log(userCampo, passCampo);
-//     if (userCampo != "" && passCampo != "") {
-//       localStorage.setItem("usuario", "a");
-      
-//     } else {
-//       //setError("Usuario y/o contraseña incorrectos");
-//       localStorage.clear();
-//       setError(true);
-//     }
-//   };
-
-//   return (
-//     <div className="contenedor-formulario">
-//       <h2 className="login-titulo">Login</h2>
-//       <label htmlFor="usuarioLogin">Usuario</label>
-//       <input
-//         type="text"
-//         id="usuarioLogin"
-//         name="usuario"
-//         placeholder="Usuario"
-//         className="input-formulario"
-//         ref={usuario}
-//       />
-//       <label htmlFor="contraseñaLogin">Contraseña</label>
-//       <input
-//         type="text"
-//         id="contraseñaLogin"
-//         name="contraseña"
-//         placeholder="Contraseña"
-//         className="input-formulario"
-//         ref={password}
-//       />
-//       <input type="submit" className="btn-formulario" value="Iniciar sesion" onClick="onIngresarHandler"/>
-//     </div>
-//   );
-// };
-
-// export default Login;
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import "../Styles/Login.css";
 
 const LoginForm = () => {
-  const [usuario, setUsuario] = useState('');
-  const [password, setPassword] = useState('');
+  const [usuario, setUsuario] = useState("");
+  const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
 
+
+  //Falta implementar el boton desactivado hasta que ambos campos esten vacios
   const handleLogin = () => {
-    const url = 'https://censo.develotion.com/login.php'
+    const url = "https://censo.develotion.com/login.php";
 
     fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ usuario, password }),
     })
@@ -77,18 +22,18 @@ const LoginForm = () => {
       .then((data) => {
         console.log(data);
         if (data.apiKey) {
-          // Si el login es exitoso, guardamos el id y la apikey en el localStorage
-          localStorage.setItem('id', data.id);
-          localStorage.setItem('apiKey', data.apiKey);
+          //Si el login es exitoso, guarda id y apikey en el localStorage
+          localStorage.setItem("id", data.id);
+          localStorage.setItem("apiKey", data.apiKey);
           setLoginError(false);
         } else {
-          // Si el login es incorrecto, mostramos el mensaje de error
+          //Si el login es incorrecto, tiro msj de error y limpia el localStorage
           setLoginError(true);
           localStorage.clear();
         }
       })
       .catch((error) => {
-        // Si hay algún error en la solicitud, también mostramos el mensaje de error
+        // i hay algún error en la solicitud, también muestro el msj de error
         localStorage.clear();
         setLoginError(true);
       });
@@ -100,22 +45,48 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={usuario}
-        onChange={(e) => setUsuario(e.target.value)}
-        placeholder="Usuario"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Contraseña"
-      />
-      <button type="submit">Iniciar sesión</button>
-      {loginError && <p>Usuario o contraseña incorrectos</p>}
-    </form>
+    <div className="container">
+      <div className="logo">Login</div>
+      <div className="login-item">
+      <form onSubmit={handleSubmit} className="form form-login">
+        {/* -------- Usuario --------*/}
+        <div className="form-field">
+          <label className="user" htmlFor="login-username">
+            <span className="hidden">htmlFor</span>
+          </label>
+          <input
+            type="text"
+            id="login-username"
+            value={usuario}
+            onChange={(e) => setUsuario(e.target.value)}
+            placeholder="Usuario"
+            className="input-formulario"
+            required
+          />
+        </div>
+        {/* -------- Contraseña --------*/}
+        <div className="form-field">
+          <label className="user" htmlFor="login-password">
+            <span className="hidden">Contraseña</span>
+          </label>
+          <input
+            type="password"
+            id="login-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Contraseña"
+            className="input-formulario"
+            required
+          />
+        </div>
+        {/* -------- Boton --------*/}
+        <div className="form-field">
+          <input type="submit"  value='Iniciar sesión'/>
+        </div>
+        {loginError && <p className="form-msg">Usuario o contraseña incorrectos</p>}
+      </form>
+      </div>
+    </div>
   );
 };
 
