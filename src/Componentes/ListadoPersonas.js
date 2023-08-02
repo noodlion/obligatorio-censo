@@ -5,19 +5,21 @@ import Persona from "./Persona";
 const ListadoPersonas = () => {
   const [personasCensadas, setPersonas] = useState([]);
 
+  const idUsuario = localStorage.getItem("id");
+  const apiKey = localStorage.getItem("apiKey");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const censo = "https://censo.develotion.com";
-        const idUsuario = 6;
         const url = `${censo}/personas.php?idUsuario=${idUsuario}`;
 
         const response = await fetch(url, {
           method: 'GET',
           headers: {
             'Content-Type': "application/json",
-            'apikey': "4171e00ddf882b0c971147a8fb2dce72",
-            'iduser': "6",
+            'apikey':apiKey,
+            'iduser': idUsuario,
           },
         });
         const datos = await response.json();
