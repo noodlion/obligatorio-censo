@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import "../Styles/Login.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
 
+  let navigate = useNavigate();
 
-  //Falta implementar el boton desactivado hasta que ambos campos esten vacios
+  //Nota no tan mental: Falta implementar el boton desactivado hasta que ambos campos esten vacios
   const handleLogin = () => {
     const url = "https://censo.develotion.com/login.php";
 
@@ -26,6 +28,8 @@ const LoginForm = () => {
           localStorage.setItem("id", data.id);
           localStorage.setItem("apiKey", data.apiKey);
           setLoginError(false);
+          navigate("/Dashboard")
+          console.log(data)
         } else {
           //Si el login es incorrecto, tiro msj de error y limpia el localStorage
           setLoginError(true);
@@ -33,7 +37,7 @@ const LoginForm = () => {
         }
       })
       .catch((error) => {
-        // i hay algún error en la solicitud, también muestro el msj de error
+        // Si hay algún error en la solicitud, también muestro el msj de error
         localStorage.clear();
         setLoginError(true);
       });
@@ -81,10 +85,13 @@ const LoginForm = () => {
         </div>
         {/* -------- Boton --------*/}
         <div className="form-field">
-          <input type="submit"  value='Iniciar sesión'/>
+          <input type="submit" value='Iniciar sesión'/>
         </div>
         {loginError && <p className="form-msg">Usuario o contraseña incorrectos</p>}
       </form>
+      {/* -------- Link al Registro --------*/}
+      <Link to="/Registro">¿No tienes cuenta? Registrate aquí</Link>
+      
       </div>
     </div>
   );

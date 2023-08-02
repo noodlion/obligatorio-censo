@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 const Registro = () => {
   return (
@@ -23,6 +24,7 @@ const Registro = () => {
         />
         <input type="submit" className="btn-formulario" value="Aceptar" />
       </form>
+      <Link to="/">¿Ya tienes cuenta? Loggeate aquí</Link>
     </div>
   );
 };

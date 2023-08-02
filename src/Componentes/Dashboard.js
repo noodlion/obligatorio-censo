@@ -1,9 +1,19 @@
-import React from 'react'
+import React from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Logout from "./Logout";
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+  let navigate = useNavigate();
 
-export default Dashboard
+  useEffect(() => {
+    if(localStorage.getItem("apiKey") === null) {
+      navigate("/");
+    }
+  
+  }, [])
+
+  return <div><Logout/></div>;
+};
+
+export default Dashboard;
