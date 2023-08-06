@@ -1,0 +1,13 @@
+OBJETO DEPARTAMENTO
+    "id": 129871,
+    "nombre": "Santiago Vázquez",
+    "idDepartamento": 3218,
+    "codigoDepartamento": "MO",
+    "idPais": 235,
+    "codigoPais": "UY",
+    "latitud": -34.79028,
+    "longitud": -56.35,
+    "createdAt": "2019-10-05 17:37:13",
+    "updatedAt": "2020-05-01 11:23:27",
+    "bandera": 1,
+    "wikiDataId": "Q3698900"

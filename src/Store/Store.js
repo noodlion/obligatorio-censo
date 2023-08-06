@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import departamentosReducer from "../Slices/DepartamentosSlice";
-import personaReducer from "../Slices/PersonaSlice"
+import ciudadesReducer from "../Slices/CiudadesSlice";
+import personaReducer from "../Slices/PersonaSlice";
 
 export const Store = configureStore({
-    reducer: {
-        departamentos: departamentosReducer,
-        personas: personaReducer
-    }
-})
+  reducer: {
+    personas: personaReducer,
+    departamentos: departamentosReducer,
+    ciudades: ciudadesReducer,
+  },
+});

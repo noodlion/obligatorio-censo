@@ -1,8 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Logout = () => {
     let navigate = useNavigate();
+
+    useEffect(() => {
+      if (localStorage.getItem("apiKey") === null) {
+        navigate("/");
+      }
+    }, []);
 
     const handleLogout = () => {
       localStorage.clear();

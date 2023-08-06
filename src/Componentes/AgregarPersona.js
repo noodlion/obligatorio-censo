@@ -8,7 +8,13 @@ import React from "react";
     "ocupacion": 3 */
 
 const AgregarPersona = () => {
-  const departamentos = useSelector((state) => state.departamentos.data); //consulto los departamentos que saque de mi Store
+  const [datosPersona, setDatosPersona] = useState({
+    nombre: "",
+    departamento: "",
+    ciudad: "",
+    fechaNacimiento: "",
+    ocupacion: "",
+  });
 
   return (
     <div>
@@ -30,11 +36,15 @@ const AgregarPersona = () => {
         min="1920-01-01"
       />
       <label htmlFor="departamento">Departamento</label>
-      <select id="departamento" name="departamento" default="Departamento" />
+      <select id="departamento" name="departamento" default="Departamento">
+        <option value="value1">Value 1</option>
+      </select>
       <label htmlFor="ciudad">Ciudad</label>
       <select id="ciudad" name="ciudadDpto" default="Ciudad" />
       <label htmlFor="ocupacion">Ocupacion</label>
-      <select id="ocupacion" name="ocupacion" default="Ocupacion actual" />
+      <select id="ocupacion" name="ocupacion" default="Ocupacion actual">
+        <option value="value1">Value 1</option>
+      </select>
     </div>
   );
 };
