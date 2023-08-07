@@ -10,7 +10,7 @@ const Persona = ({ persona, departamentos, ciudades }) => {
     return departamento ? departamento.nombre : "";
   };
 
-  //Ya que ciudades devuelve un objecto con un codigo y dos array, hay que buscar en los dos array
+  //Ya que ciudades devuelve un objeto con un codigo y dos array, hay que buscar en los dos array
   const obtenerNombreCiudad = (idCiudad) => {
     for(const ciudadArray of Object.values(ciudades)) {
       const ciudad = ciudadArray.find((ciu) => ciu.id === idCiudad);
@@ -23,7 +23,7 @@ const Persona = ({ persona, departamentos, ciudades }) => {
  
  //Otra manera podria ser usando destructuring pero Object.values toma todos los array que podrian haber en ese objeto en caso de que algun dia se agregaran mas array
   
-//  const ciudadesArray = [...array1, ...array2, ...ciudades.masArrays];
+//  const ciudadesArray = [...ciuades.ciudades[0], ...ciuades.ciudades[0]];
 
 //   const obtenerNombreCiudad = (idCiudad) => {
 //     const ciudad = ciudadesArray.find((ciu) => ciu.id === idCiudad);
