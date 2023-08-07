@@ -1,9 +1,10 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Logout from './Logout';
 import '../Styles/Header.css'
 
-const Logout = () => {
+const Header = () => {
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -14,12 +15,15 @@ const Logout = () => {
 
     const handleLogout = () => {
       localStorage.clear();
-      console.clear();
       navigate("/");
     }
   
-    return <button className='btn-logout' onClick={handleLogout}>Cerrar sesion</button>    
+    return (
+      <header className='header'>
+        <Logout/>
+      </header>
+    );
     
 }
 
-export default Logout
+export default Header

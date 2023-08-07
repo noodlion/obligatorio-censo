@@ -87,7 +87,7 @@ const LoginForm = () => {
         <div className="form-field">
           <input type="submit" value='Iniciar sesión'/>
         </div>
-        {loginError && <p className="form-msg">Usuario o contraseña incorrectos</p>}
+        {loginError && <p>Usuario o contraseña incorrectos</p>}
       </form>
       {/* -------- Link al Registro --------*/}
       <Link to="/Registro">¿No tienes cuenta? Registrate aquí</Link>

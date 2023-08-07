@@ -7,7 +7,6 @@ import Login from "../src/Componentes/Login";
 import Registro from "../src/Componentes/Registro";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "../src/Componentes/NotFound";
-import Logout from "../src/Componentes/Logout";
 
 function App() {
   return (
@@ -17,6 +16,7 @@ function App() {
         <Route path="/" element={<Login/>} />
         <Route path="/Registro" element={<Registro/>} />
         <Route path="/Dashboard" element={<Dashboard/>} />
+        <Route path="/PersonasCensadas" element={<ListadoPersonas/>} />
         <Route path="*" element={<NotFound/>} />
       </Routes>
       </BrowserRouter>

@@ -23,7 +23,7 @@ const Persona = ({ persona, departamentos, ciudades }) => {
  
  //Otra manera podria ser usando destructuring pero Object.values toma todos los array que podrian haber en ese objeto en caso de que algun dia se agregaran mas array
   
-//  const ciudadesArray = [...ciuades.ciudades[0], ...ciuades.ciudades[0]];
+//  const ciudadesArray = [...ciuades.ciudades[0], ...ciuades.ciudades[1]];
 
 //   const obtenerNombreCiudad = (idCiudad) => {
 //     const ciudad = ciudadesArray.find((ciu) => ciu.id === idCiudad);

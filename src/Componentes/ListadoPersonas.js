@@ -52,7 +52,7 @@ const ListadoPersonas = () => {
                 iduser: idUsuario,
               },
             }),
-          ]);
+          ], [personasCensadas]);
 
         const datosDepartamentos = await departamentosResponse.json();
         const datosCiudades = await ciudadesResponse.json();
@@ -90,7 +90,7 @@ const ListadoPersonas = () => {
           </tr>
         </thead>
         <tbody>
-          {console.log(departamentos)}
+          {console.log(personasCensadas)}
            {personasCensadas.map((persona) => (
             <Persona key={persona.id} persona={persona} departamentos={departamentos} ciudades={ciudades} />
           ))}

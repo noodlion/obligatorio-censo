@@ -1,4 +1,4 @@
-OBJETO PERSONA
+OBJETO PERSONA que devuelve el Listado Perosnas
 {
     "id": 18909,
     "nombre": "Juan",

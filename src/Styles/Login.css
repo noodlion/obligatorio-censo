@@ -18,11 +18,18 @@ html {
   background:rgba(58,63,68,0.5);
   border-radius: 5px;
   box-shadow: 0 1.5px 0 0 rgba(0,0,0,0.1);
-  width:450px;
+  width: 450px;
   display: flex;  
   flex-direction: column;
+  flex-wrap: nowrap;
+  
 }
-input {
+
+.form-login {
+   align-content: center;
+   align-items: center;
+    justify-content: center;
+    color: black !important;
     border: 0;
     color: inherit;
     font: inherit;
@@ -50,28 +57,27 @@ input {
   
   input {
     border: 0;
-    color: inherit;
     font: inherit;
     margin: 0;
     outline: 0;
     padding: 0;
-    -webkit-transition: background-color .3s;
-    transition: background-color .3s;
   }
   
+  /*icon related*/
   .user:before {
     content: '\f007';
     font: 14px fontawesome;
       color: #5b5b5b;
   }
   
+  /*icon related*/
   .lock:before {
     content: '\f023';
     font: 14px fontawesome;
       color: #5b5b5b;
   }
   
-  .form input[type="password"], .form input[type="text"], .form input[type="submit"] {
+  .form-login input[type="password"], .form-login  input[type="text"], .form-login  input[type="submit"] {
     width: 100%;
   }
   
@@ -114,14 +120,11 @@ input {
   }
 
   .form-field {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
+    display: flex;   
     margin-bottom: 2rem;
   }
   
-  
+  /*oculta los label*/
   .hidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -133,7 +136,7 @@ input {
     width: 1px;
   }
   
-  .text--center {
+  .text-center {
     text-align: center;
   }
   

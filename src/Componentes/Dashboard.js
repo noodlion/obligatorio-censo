@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Logout from "./Logout";
+import Header from "./Header";
 import ListadoPersonas from "./ListadoPersonas";
+import AgregarPersona from "./AgregarPersona";
 
 const Dashboard = () => {
   let navigate = useNavigate();
@@ -20,7 +21,8 @@ const Dashboard = () => {
     <div>
       {usuarioLogeado && (
         <div>
-          <Logout />
+          <Header />
+          <AgregarPersona/>
           <ListadoPersonas />
         </div>
       )} 
