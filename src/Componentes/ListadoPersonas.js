@@ -9,18 +9,100 @@ import { guardarCiudades } from "../Slices/CiudadesSlice";
 const ListadoPersonas = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const departamentos = useSelector(
-    (state) => state.departamentos.departamentos
-  );
-  const ciudades = useSelector((state) => state.ciudades.ciudades);
-  const personasCensadas = useSelector(
-    (state) => state.personas.personas // Obtiene el array de personas del estado
-  );
+  // Obtencion de datos
+  const departamentos = useSelector((state) => state.departamentos);
+  const ciudades = useSelector((state) => state.ciudades);
+  const personasCensadas = useSelector((state) => state.personas.personas);
 
   const idUsuario = localStorage.getItem("id");
   const apiKey = localStorage.getItem("apiKey");
 
-  // useEffect(() => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const censo = "https://censo.develotion.com";
+        const urlPersonas = `${censo}/personas.php?idUsuario=${idUsuario}`;
+        const urlDptos = `${censo}/departamentos.php`;
+        const urlCiudades = `${censo}/ciudades.php`;
+
+        // Realizar las tres solicitudes al mismo tiempo en vez de hacer "3 fetch distintos"
+        const [departamentosResponse, ciudadesResponse, personasResponse] =
+          await Promise.all([
+            fetch(urlDptos, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                apikey: apiKey,
+                iduser: idUsuario,
+              },
+            }),
+            fetch(urlCiudades, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                apikey: apiKey,
+                iduser: idUsuario,
+              },
+            }),
+            fetch(urlPersonas, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                apikey: apiKey,
+                iduser: idUsuario,
+              },
+            }),
+          ]);
+
+        const datosDepartamentos = await departamentosResponse.json();
+        const datosCiudades = await ciudadesResponse.json();
+        const datosPersonas = await personasResponse.json();
+
+        //Guardo solo el array y no el codigo, ya que devuelve un objeto de tipo codigo y un array departamentos
+        dispatch(guardarDepartamentos(datosDepartamentos.departamentos));
+        dispatch(guardarCiudades(datosCiudades.ciudades));
+        //console.log(datosPersonas);
+
+        if (datosPersonas.personas === undefined) {
+          navigate("/Dashboard");
+        } else {
+          dispatch(guardarPersonas(datosPersonas.personas));
+        }
+      } catch (error) {
+        console.error("Error al obtener los datos:", error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch, apiKey, idUsuario]);
+
+  return (
+    <div>
+      <h2>Listado de Personas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Departamento</th>
+            <th>Ciudad</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Ocupación</th>
+          </tr>
+        </thead>
+        <tbody>
+          {console.log(departamentos)}
+           {personasCensadas.map((persona) => (
+            <Persona key={persona.id} persona={persona} departamentos={departamentos} ciudades={ciudades} />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default ListadoPersonas;
+
+ // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
   //       const censo = "https://censo.develotion.com";
@@ -75,73 +157,3 @@ const ListadoPersonas = () => {
 
   //   fetchData();
   // }, [dispatch, apiKey, idUsuario]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const censo = "https://censo.develotion.com";
-        const urlPersonas = `${censo}/personas.php?idUsuario=${idUsuario}`;
-        const urlDptos = `${censo}/departamentos.php`;
-        const urlCiudades = `${censo}/ciudades.php`;
-
-        // Realizar las tres solicitudes en paralelo
-        const [departamentosResponse, ciudadesResponse, personasResponse] =
-          await Promise.all([
-            fetch(urlDptos, {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                apikey: apiKey,
-                iduser: idUsuario,
-              },
-            }),
-            fetch(urlCiudades, {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                apikey: apiKey,
-                iduser: idUsuario,
-              },
-            }),
-            fetch(urlPersonas, {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                apikey: apiKey,
-                iduser: idUsuario,
-              },
-            }),
-          ]);
-
-        const datosDepartamentos = await departamentosResponse.json();
-        const datosCiudades = await ciudadesResponse.json();
-        const datosPersonas = await personasResponse.json();
-
-        dispatch(guardarDepartamentos(datosDepartamentos));
-        console.log(datosDepartamentos);
-        dispatch(guardarCiudades(datosCiudades));
-        console.log(datosCiudades);
-
-        if (datosPersonas.personas === undefined) {
-          navigate("/Dashboard");
-        } else {
-          dispatch(guardarPersonas(datosPersonas.personas));
-        }
-      } catch (error) {
-        console.error("Error al obtener los datos:", error);
-      }
-    };
-
-    fetchData();
-  }, [dispatch, apiKey, idUsuario]);
-
-  return (
-    <div>
-      {personasCensadas.map((persona) => (
-        <Persona persona={persona} />
-      ))}
-    </div>
-  );
-};
-
-export default ListadoPersonas;

@@ -1,22 +1,29 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logout from "./Logout";
 import ListadoPersonas from "./ListadoPersonas";
 
 const Dashboard = () => {
   let navigate = useNavigate();
+  const [usuarioLogeado, setUsuarioLogeado] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem("apiKey") === null) {
+    if (localStorage.getItem("apiKey")) {
+      setUsuarioLogeado(true);
+    } else {
       navigate("/");
     }
   }, []);
 
   return (
     <div>
-      <Logout />
-      <ListadoPersonas/>
+      {usuarioLogeado && (
+        <div>
+          <Logout />
+          <ListadoPersonas />
+        </div>
+      )} 
     </div>
   );
 };

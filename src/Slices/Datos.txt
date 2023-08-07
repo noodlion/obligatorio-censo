@@ -1,3 +1,16 @@
+OBJETO PERSONA
+{
+    "id": 18909,
+    "nombre": "Juan",
+    "departamento": 3205,
+    "ciudad": 129779,
+    "fechaNacimiento": "2023-08-01",
+    "ocupacion": 5,
+    "idUsuario": 6
+}
+
+
+
 OBJETO DEPARTAMENTO
     "id": 129871,
     "nombre": "Santiago Vázquez",
@@ -11,3 +24,40 @@ OBJETO DEPARTAMENTO
     "updatedAt": "2020-05-01 11:23:27",
     "bandera": 1,
     "wikiDataId": "Q3698900"
+
+
+DEPARTAMENTOS, DEVUELVE UN ARRAY DE OBJETOS CON LOS SIGUIENTES ATRIBUTOS
+
+    {
+        "id": 3203,
+        "nombre": "Flores",
+        "id_pais": 235,
+        "codigo_pais": "UY",
+        "codigo_fips": 6,
+        "iso2": "FS",
+        "tipo": null,
+        "latitud": -33.5733753,
+        "longitud": -56.8945028,
+        "created_at": "2019-10-05 12:48:53",
+        "updated_at": "2021-12-03 16:31:43",
+        "bandera": 1,
+        "wikiDataId": "Q16578"
+    }
+ 
+ CIUDADES, DEVUELVE UN ARRAY DE OBJETOS CON LOS SIGUIENTES ATRIBUTOS
+    {
+        "id": 129771,
+        "nombre": "25 de Agosto",
+        "idDepartamento": 3217,
+        "codigoDepartamento": "FD",
+        "idPais": 235,
+        "codigoPais": "UY",
+        "latitud": -34.41167,
+        "longitud": -56.40222,
+        "createdAt": "2019-10-05 17:37:12",
+        "updatedAt": "2019-10-05 17:37:12",
+        "bandera": 1,
+        "wikiDataId": "Q218465"
+    },
+
+]
