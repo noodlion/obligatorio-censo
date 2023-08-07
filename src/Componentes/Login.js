@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -6,10 +6,20 @@ const LoginForm = () => {
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
+  const [btnHabilitado, setBtnHabilitado] = useState(false);
 
   let navigate = useNavigate();
 
-  //Nota no tan mental: Falta implementar el boton desactivado hasta que ambos campos esten vacios
+  //Validacion de boton desactivado si los campos estan vacios
+  useEffect(() => {
+    if((usuario && password) === "") { 
+      setBtnHabilitado(false);
+    } else {
+      setBtnHabilitado(true);
+    }
+  }, [usuario, password])
+
+  
   const handleLogin = () => {
     const url = "https://censo.develotion.com/login.php";
 
@@ -65,7 +75,7 @@ const LoginForm = () => {
             onChange={(e) => setUsuario(e.target.value)}
             placeholder="Usuario"
             className="input-formulario"
-            required
+            
           />
         </div>
         {/* -------- Contraseña --------*/}
@@ -80,12 +90,12 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Contraseña"
             className="input-formulario"
-            required
+            
           />
         </div>
         {/* -------- Boton --------*/}
         <div className="form-field">
-          <input type="submit" value='Iniciar sesión'/>
+          <input type="submit" value='Iniciar sesión' disabled={!btnHabilitado}/>
         </div>
         {loginError && <p>Usuario o contraseña incorrectos</p>}
       </form>

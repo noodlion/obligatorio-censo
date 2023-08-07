@@ -52,7 +52,7 @@ const ListadoPersonas = () => {
                 iduser: idUsuario,
               },
             }),
-          ], [personasCensadas]);
+          ], []);
 
         const datosDepartamentos = await departamentosResponse.json();
         const datosCiudades = await ciudadesResponse.json();
