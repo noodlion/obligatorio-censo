@@ -3,8 +3,12 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Persona from "./Persona";
-import '../Styles/ListadoPersonas.css'
-import { agregarPersona, eliminarPersona, guardarPersonas } from "../Slices/PersonaSlice"; 
+import "../Styles/ListadoPersonas.css";
+import {
+  agregarPersona,
+  eliminarPersona,
+  guardarPersonas,
+} from "../Slices/PersonaSlice";
 import { guardarDepartamentos } from "../Slices/DepartamentosSlice";
 import { guardarCiudades } from "../Slices/CiudadesSlice";
 import { guardarOcupaciones } from "../Slices/OcupacionesSlice";
@@ -81,11 +85,6 @@ const ListadoPersonas = () => {
         const datosPersonas = await personasResponse.json();
         const datosOcupaciones = await ocupacionesResponse.json();
 
-        //Guardo solo el array y no el codigo, ya que devuelve un objeto de tipo codigo y un array departamentos
-        // dispatch(guardarDepartamentos(datosDepartamentos.departamentos));
-        // dispatch(guardarCiudades(datosCiudades.ciudades));
-        // dispatch(guardarOcupaciones(datosOcupaciones.ocupaciones));
-
         if (
           datosPersonas.personas === undefined ||
           datosCiudades.ciudades === undefined ||
@@ -94,10 +93,10 @@ const ListadoPersonas = () => {
         ) {
           navigate("/Dashboard");
         } else {
-          dispatch(guardarPersonas(datosPersonas.personas))
+          dispatch(guardarPersonas(datosPersonas.personas));
           dispatch(guardarDepartamentos(datosDepartamentos.departamentos));
           dispatch(guardarCiudades(datosCiudades.ciudades));
-          dispatch(guardarOcupaciones(datosOcupaciones.ocupaciones));;
+          dispatch(guardarOcupaciones(datosOcupaciones.ocupaciones));
         }
         setLoading(false);
       } catch (error) {
@@ -146,58 +145,93 @@ const ListadoPersonas = () => {
 
 export default ListadoPersonas;
 
-// useEffect(() => {
-//   const fetchData = async () => {
-//     try {
-//       const censo = "https://censo.develotion.com";
-//       const urlPersonas = `${censo}/personas.php?idUsuario=${idUsuario}`;
-//       const urlDptos = `${censo}/departamentos.php`;
-//       const urlCiudades = `${censo}/ciudades.php`;
+// import React, { useEffect } from "react";
+// import { useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { Link, useNavigate } from "react-router-dom";
+// import Persona from "./Persona";
+// import '../Styles/ListadoPersonas.css'
+// import { eliminarPersona, guardarPersonas } from "../Slices/PersonaSlice";
 
-//       //--------------- Fetch a los departamentos ---------------
-//       const departamentosResponse = await fetch(urlDptos, {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json",
-//           apikey: apiKey,
-//           iduser: idUsuario,
-//         },
-//       });
-//       const datosDepartamentos = await departamentosResponse.json();
-//       dispatch(guardarDepartamentos(datosDepartamentos));
+// const ListadoPersonas = () => {
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   // Obtencion de datos
+//   const personasCensadas = useSelector((state) => state.personas.personas);
+//   const departamentos = useSelector((state) => state.departamentos);
+//   const ciudades = useSelector((state) => state.ciudades.ciudades);
+//   const ocupaciones = useSelector((state) => state.ocupaciones);
 
-//       //--------------- Fetch a las ciudades ---------------
-//       const ciudadesResponse = await fetch(urlCiudades, {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json",
-//           apikey: apiKey,
-//           iduser: idUsuario,
-//         },
-//       });
-//       const datosCiudades = await ciudadesResponse.json();
-//       dispatch(guardarCiudades(datosCiudades));
+//   //State para corroborar que todos mis datos esten cargados
+//   const [loading, setLoading] = useState(true);
 
-//       //--------------- Fetch a mi lista de personas ---------------
-//       const response = await fetch(urlPersonas, {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json",
-//           apikey: apiKey,
-//           iduser: idUsuario,
-//         },
-//       });
+//   const idUsuario = localStorage.getItem("id");
+//   const apiKey = localStorage.getItem("apiKey");
+//   const censo = "https://censo.develotion.com";
 
-//       const datos = await response.json();
-//       if (datos.personas === undefined) {
-//         navigate("/Dashboard");
-//       } else {
-//         dispatch(guardarPersonas(datos.personas));
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const urlPersonas = `${censo}/personas.php?idUsuario=${idUsuario}`;
+//         const personasResponse = await fetch(urlPersonas, {
+//           method: "GET",
+//           headers: {
+//             "Content-type": "application/json",
+//             apikey: apiKey,
+//             iduser: idUsuario,
+//           },
+//         });
+
+//         const datosPersonas = await personasResponse.json();
+
+//         if (datosPersonas.personas === undefined) {
+//           navigate("/Dashboard");
+//         } else {
+//           dispatch(guardarPersonas(datosPersonas.personas));
+//         }
+
+//         setLoading(false);
+//       } catch (error) {
+//         console.error("Error al obtener los datos:", error);
 //       }
-//     } catch (error) {
-//       console.error("Error al obtener los datos:", error);
-//     }
-//   };
+//     };
 
-//   fetchData();
-// }, [dispatch, apiKey, idUsuario]);
+//     fetchData();
+//   }, [eliminarPersona]);
+
+//   return (
+//     <div className="listado-container">
+//       <h2 className="listado-heading">Personas censadas</h2>
+//       <table className="listado-table">
+//         <thead>
+//           <tr>
+//             <th>Nombre</th>
+//             <th>Departamento</th>
+//             <th>Ciudad</th>
+//             <th>Fecha de Nacimiento</th>
+//             <th>Ocupación</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {loading ? (
+//             <tr className="listado-loading">
+//               <td colSpan="5">Cargando...</td>
+//             </tr>
+//           ) : (
+//             personasCensadas.map((persona) => (
+//               <Persona
+//                 key={persona.id}
+//                 persona={persona}
+//                 departamentos={departamentos}
+//                 ciudades={ciudades}
+//                 ocupaciones={ocupaciones}
+//               />
+//             ))
+//           )}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// };
+
+// export default ListadoPersonas;
