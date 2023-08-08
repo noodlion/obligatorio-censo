@@ -1,21 +1,18 @@
 import React from "react";
 import { useState } from "react";
 import "../Styles/AgregarPersona.css";
-import { Link, useNavigate } from "react-router-dom";
-
-/*  -------- OBJETO PERSONA --------
-    "idUsuario": 6,
-    "nombre": "Persona 12",
-    "departamento": 44,
-    "ciudad": 22,
-    "fechaNacimiento": "2001-09-29",
-    "ocupacion": 3 */
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AgregarPersona = () => {
-
-  {/*-------- Defino objeto persona -------- */}
+  /*Tomo mis datos del login */
+  const apiKey = localStorage.getItem("apiKey");
+  const idUser = localStorage.getItem("id");
+  {
+    /*-------- Defino objeto persona -------- */
+  }
   const [datosPersona, setDatosPersona] = useState({
-    idUsuario: "",
+    idUsuario: idUser,
     nombre: "",
     departamento: "",
     ciudad: "",
@@ -23,51 +20,45 @@ const AgregarPersona = () => {
     ocupacion: "",
   });
 
+  //Pido las ocupaciones y departamentos guardadas en mi store
+  const departamentos = useSelector((state) => state.departamentos.data);
+  const ciudades = useSelector((state) => state.ciudades.data);
+  const ocupaciones = useSelector((state) => state.ocupaciones.data);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  
 
   const handleAgregarPersona = async (e) => {
     e.preventDefault();
-    
     const url = "https://censo.develotion.com/personas.php";
-    /*Tomo mis datos del login */
-    const apiKey = localStorage.getItem(apiKey);
-    const idUser = localStorage.getItem(idUser);
-    
+
     try {
-      const response = fetch(url, {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           apiKey: apiKey,
-          idUser: idUser
+          idUser: idUser,
         },
-        body: JSON.stringify({datosPersona}),
+        body: JSON.stringify(datosPersona),
       });
 
       if (response.ok) {
-        //Registro exitoso, redirecciona a Dashboard
-        navigate('/Dashboard');
+        navigate("/Dashboard");
       } else {
-        //Registro fallido, obtener el mensaje de error de la API
         const data = await response.json();
         setError(data.message || "Error al registrar el usuario.");
       }
     } catch (error) {
-      // Error en la solicitud, manejar el error
       setError("Error al registrar el usuario.");
     }
-  }
-
-  
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   handleAgregarPersona();
-  // };
+  };
 
   return (
     <div>
+      {console.log("Agregar persona check in")}
+      {console.log("Ocupaciones", ocupaciones)}
+      {console.log("Departamentos", departamentos)}
+
       <h2>Agregar persona censada</h2>
       <form className="form-persona" onSubmit={handleAgregarPersona}>
         {/* -------- Nombre --------*/}
@@ -91,22 +82,47 @@ const AgregarPersona = () => {
         {/* ------------------ SELECTS ------------------*/}
         {/* -------- Departamento --------*/}
         <label htmlFor="departamento">Departamento</label>
-        <select id="departamento" name="departamento" default="Departamento">
-          <option value="value1">
-            Selecciona un departamento
-          </option>
+        <select
+          id="departamento"
+          name="departamento"
+          value={datosPersona.departamento}
+          onChange={(e) =>
+            setDatosPersona({ ...datosPersona, departamento: e.target.value })
+          }
+        >
+          <option value="">Selecciona un departamento</option>
+          {departamentos.map((departamento) => (
+            <option key={departamento.id} value={departamento.id}>
+              {departamento.nombre}
+            </option>
+          ))}
         </select>
+
         {/* -------- Ciudad --------*/}
         <label htmlFor="ciudad">Ciudad</label>
-        <select id="ciudad" name="ciudadDpto" default="Ciudad">
-          <option>Selecciona ciudad</option>
+        <select
+          id="ciudad"
+          name="ciudadDpto"        
+        >
+          <option value="">Selecciona ciudad</option>
         </select>
+
         {/* -------- Ocupacion --------*/}
         <label htmlFor="ocupacion">Ocupacion</label>
-        <select id="ocupacion" name="ocupacion" default="Ocupacion actual">
-          <option value="value1">
-            Selecciona ocupacion
-          </option>
+        <select
+          id="ocupacion"
+          name="ocupacion"
+          value={datosPersona.ocupacion}
+          onChange={(e) =>
+            setDatosPersona({ ...datosPersona, ocupacion: e.target.value })
+          }
+        >
+          <option value="">Selecciona ocupacion</option>
+          {ocupaciones.map((ocupacion) => (
+            <option key={ocupacion.id} value={ocupacion.id}>
+              {ocupacion.ocupacion}
+            </option>
+          ))}
         </select>
         {/* -------- Boton --------*/}
         <input type="submit" value="Registrar" />

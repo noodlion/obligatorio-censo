@@ -60,4 +60,34 @@ DEPARTAMENTOS, DEVUELVE UN ARRAY DE OBJETOS CON LOS SIGUIENTES ATRIBUTOS
         "wikiDataId": "Q218465"
     },
 
-]
+OCUPACIONES DEVUELVE UN OBJETO CON UN CODIGO Y UN ARRAY
+codigo
+: 
+200
+ocupaciones
+: 
+Array(7)
+0
+: 
+{id: 1, ocupacion: 'Empleado dependiente'}
+1
+: 
+{id: 2, ocupacion: 'Empleado independiente'}
+2
+: 
+{id: 3, ocupacion: 'Empleado público'}
+3
+: 
+{id: 4, ocupacion: 'Comerciante'}
+4
+: 
+{id: 5, ocupacion: 'Estudiante'}
+5
+: 
+{id: 7, ocupacion: 'Emprendedor'}
+6
+: 
+{id: 8, ocupacion: 'No trabaja'}
+length
+: 
+7
