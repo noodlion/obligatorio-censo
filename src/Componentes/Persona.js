@@ -1,4 +1,5 @@
 import React from "react";
+import EliminarPersona from "./EliminarPersona";
 
 const Persona = ({ persona, departamentos, ciudades, ocupaciones }) => {
   const departamentosArray = departamentos.data;
@@ -18,16 +19,6 @@ const Persona = ({ persona, departamentos, ciudades, ocupaciones }) => {
     return ocupacion ? ocupacion.ocupacion : "";
   };
 
-  //Ya que ciudades devuelve un objeto con un codigo y dos array, hay que buscar en los dos array
-  // const obtenerNombreCiudad = (idCiudad) => {
-  //   for(const ciudadArray of Object.values(ciudades)) {
-  //     const ciudad = ciudadArray.find((ciu) => ciu.id === idCiudad);
-  //     if (ciudad) {
-  //       return ciudad.nombre;
-  //     }
-  //   }
-  //   return 'No hay ciudad asignada';
-  // }
   const obtenerNombreCiudad = (idCiudad) => {
     const ciudad = ciudades.find((ciu) => ciu.id === idCiudad);
     return ciudad ? ciudad.nombre : 'No hay ciudad asignada';
@@ -40,6 +31,9 @@ const Persona = ({ persona, departamentos, ciudades, ocupaciones }) => {
       <td>{obtenerNombreCiudad(persona.ciudad)}</td>
       <td>{persona.fechaNacimiento}</td>
       <td>{obtenerNombreOcupacion(persona.ocupacion)}</td>
+      <td>
+        <EliminarPersona personaId={persona.id} />
+      </td>
     </tr>
   );
 };

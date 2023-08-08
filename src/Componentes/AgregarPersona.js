@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState} from "react";
 import "../Styles/AgregarPersona.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -8,9 +8,10 @@ const AgregarPersona = () => {
   /*Tomo mis datos del login */
   const apiKey = localStorage.getItem("apiKey");
   const idUser = localStorage.getItem("id");
-  {
-    /*-------- Defino objeto persona -------- */
-  }
+  const fechaHoy = new Date();
+
+  /*-------- Defino objeto persona -------- */
+
   const [datosPersona, setDatosPersona] = useState({
     idUsuario: idUser,
     nombre: "",
@@ -22,28 +23,35 @@ const AgregarPersona = () => {
 
   //Pido las ocupaciones y departamentos guardadas en mi store
   const departamentos = useSelector((state) => state.departamentos.data);
-  const ciudades = useSelector((state) => state.ciudades.data);
+  const ciudades = useSelector((state) => state.ciudades.ciudades);
   const ocupaciones = useSelector((state) => state.ocupaciones.data);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [ciudadesFiltradas, setCiudadesFiltradas] = useState([]);
+
+    //129848 ciudad de para harcodear
+   const handleCiudad = (e) => {
+    setCiudadesFiltradas(ciudades.filter(ciud => ciud.idDepartamento === e.target.value))
+  }
 
   const handleAgregarPersona = async (e) => {
-    e.preventDefault();
     const url = "https://censo.develotion.com/personas.php";
 
+    console.log("2da pasada", datosPersona);
     try {
       const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          apiKey: apiKey,
-          idUser: idUser,
+          apikey: apiKey,
+          iduser: idUser,
         },
         body: JSON.stringify(datosPersona),
       });
 
       if (response.ok) {
         navigate("/Dashboard");
+        console.log("3ra pasada", datosPersona);
       } else {
         const data = await response.json();
         setError(data.message || "Error al registrar el usuario.");
@@ -53,14 +61,15 @@ const AgregarPersona = () => {
     }
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleAgregarPersona();
+  };
+
   return (
     <div>
-      {console.log("Agregar persona check in")}
-      {console.log("Ocupaciones", ocupaciones)}
-      {console.log("Departamentos", departamentos)}
-
       <h2>Agregar persona censada</h2>
-      <form className="form-persona" onSubmit={handleAgregarPersona}>
+      <form className="form-persona" onSubmit={onSubmit}>
         {/* -------- Nombre --------*/}
         <label htmlFor="nombreCompleto">Nombre Completo</label>
         <input
@@ -68,6 +77,11 @@ const AgregarPersona = () => {
           id="nombreCompleto"
           name="nombre"
           placeholder="Juan Perez"
+          value={datosPersona.nombre}
+          onChange={(e) =>
+            setDatosPersona({ ...datosPersona, nombre: e.target.value })
+          }
+          required
         />
         {/* -------- Fecha de nacimiento --------*/}
         <label htmlFor="fechaNac">Fecha de Nacimiento</label>
@@ -78,6 +92,13 @@ const AgregarPersona = () => {
           required
           pattern="\d{4}-\d{2}-\d{2}"
           min="1920-01-01"
+          max={fechaHoy}
+          onChange={(e) =>
+            setDatosPersona({
+              ...datosPersona,
+              fechaNacimiento: e.target.value,
+            })
+          }
         />
         {/* ------------------ SELECTS ------------------*/}
         {/* -------- Departamento --------*/}
@@ -85,26 +106,26 @@ const AgregarPersona = () => {
         <select
           id="departamento"
           name="departamento"
-          value={datosPersona.departamento}
-          onChange={(e) =>
-            setDatosPersona({ ...datosPersona, departamento: e.target.value })
-          }
+          onChange={handleCiudad}
+          required
         >
-          <option value="">Selecciona un departamento</option>
-          {departamentos.map((departamento) => (
-            <option key={departamento.id} value={departamento.id}>
-              {departamento.nombre}
+          <option value="-1">Selecciona un departamento</option>
+          {departamentos.map((dep) => (
+            <option key={dep.id} value={dep.id}>
+              {dep.nombre}
             </option>
           ))}
         </select>
 
         {/* -------- Ciudad --------*/}
         <label htmlFor="ciudad">Ciudad</label>
-        <select
-          id="ciudad"
-          name="ciudadDpto"        
-        >
-          <option value="">Selecciona ciudad</option>
+        <select id="ciudad" name="ciudadDpto" required>
+          <option value="-1">Seleccione ciudad</option>
+          {ciudadesFiltradas?.map((ciud) => (
+            <option value={ciud.id} key={ciud.id}>
+              {ciud.nombre}
+            </option>
+          ))}
         </select>
 
         {/* -------- Ocupacion --------*/}
@@ -117,7 +138,7 @@ const AgregarPersona = () => {
             setDatosPersona({ ...datosPersona, ocupacion: e.target.value })
           }
         >
-          <option value="">Selecciona ocupacion</option>
+          <option value="-1">Selecciona ocupacion</option>
           {ocupaciones.map((ocupacion) => (
             <option key={ocupacion.id} value={ocupacion.id}>
               {ocupacion.ocupacion}

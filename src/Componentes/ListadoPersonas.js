@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Persona from "./Persona";
-import { guardarPersonas } from "../Slices/PersonaSlice";
+import '../Styles/ListadoPersonas.css'
+import { agregarPersona, eliminarPersona, guardarPersonas } from "../Slices/PersonaSlice"; 
 import { guardarDepartamentos } from "../Slices/DepartamentosSlice";
 import { guardarCiudades } from "../Slices/CiudadesSlice";
 import { guardarOcupaciones } from "../Slices/OcupacionesSlice";
@@ -21,17 +22,17 @@ const ListadoPersonas = () => {
 
   const idUsuario = localStorage.getItem("id");
   const apiKey = localStorage.getItem("apiKey");
+  const censo = "https://censo.develotion.com";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const censo = "https://censo.develotion.com";
         const urlPersonas = `${censo}/personas.php?idUsuario=${idUsuario}`;
         const urlDptos = `${censo}/departamentos.php`;
         const urlCiudades = `${censo}/ciudades.php`;
         const urlOcupaciones = `${censo}/ocupaciones.php`;
 
-        // Realizar las tres solicitudes al mismo tiempo en vez de hacer "3 fetch distintos"
+        // Realizar las 4 solicitudes al mismo tiempo en vez de hacer fetch distintos
         const [
           departamentosResponse,
           ciudadesResponse,
@@ -81,9 +82,9 @@ const ListadoPersonas = () => {
         const datosOcupaciones = await ocupacionesResponse.json();
 
         //Guardo solo el array y no el codigo, ya que devuelve un objeto de tipo codigo y un array departamentos
-        dispatch(guardarDepartamentos(datosDepartamentos.departamentos));
-        dispatch(guardarCiudades(datosCiudades.ciudades));
-        dispatch(guardarOcupaciones(datosOcupaciones.ocupaciones));
+        // dispatch(guardarDepartamentos(datosDepartamentos.departamentos));
+        // dispatch(guardarCiudades(datosCiudades.ciudades));
+        // dispatch(guardarOcupaciones(datosOcupaciones.ocupaciones));
 
         if (
           datosPersonas.personas === undefined ||
@@ -93,7 +94,10 @@ const ListadoPersonas = () => {
         ) {
           navigate("/Dashboard");
         } else {
-          dispatch(guardarPersonas(datosPersonas.personas));
+          dispatch(guardarPersonas(datosPersonas.personas))
+          dispatch(guardarDepartamentos(datosDepartamentos.departamentos));
+          dispatch(guardarCiudades(datosCiudades.ciudades));
+          dispatch(guardarOcupaciones(datosOcupaciones.ocupaciones));;
         }
         setLoading(false);
       } catch (error) {
@@ -102,13 +106,13 @@ const ListadoPersonas = () => {
     };
 
     fetchData();
-  }, [dispatch, apiKey, idUsuario]);
+  }, [eliminarPersona]);
   // }, [dispatch, apiKey, idUsuario]);
 
   return (
-    <div>
-      <h2>Listado de Personas</h2>
-      <table>
+    <div className="listado-container">
+      <h2 className="listado-heading">Personas censadas</h2>
+      <table className="listado-table">
         <thead>
           <tr>
             <th>Nombre</th>
@@ -119,22 +123,22 @@ const ListadoPersonas = () => {
           </tr>
         </thead>
         <tbody>
-        {loading ? (
-          <tr>
-            <td colSpan="5">Cargando...</td>
-          </tr>
-        ) : (
-          personasCensadas.map((persona) => (
-            <Persona
-              key={persona.id}
-              persona={persona}
-              departamentos={departamentos}
-              ciudades={ciudades}
-              ocupaciones={ocupaciones}
-            />
-          ))
-        )}
-      </tbody>
+          {loading ? (
+            <tr className="listado-loading">
+              <td colSpan="5">Cargando...</td>
+            </tr>
+          ) : (
+            personasCensadas.map((persona) => (
+              <Persona
+                key={persona.id}
+                persona={persona}
+                departamentos={departamentos}
+                ciudades={ciudades}
+                ocupaciones={ocupaciones}
+              />
+            ))
+          )}
+        </tbody>
       </table>
     </div>
   );

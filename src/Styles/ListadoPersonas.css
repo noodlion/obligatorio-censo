@@ -1,0 +1,39 @@
+.listado-container {
+    padding: 20px;
+  }
+
+  .listado-container h2 {
+    text-align: center;
+  }
+  
+  .listado-heading {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .listado-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .listado-table th,
+  .listado-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .listado-table th {
+    background-color: grey;
+  }
+  
+  .listado-loading {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+  }
+  
+  .listado-persona-row:hover {
+    background-color: #f0f0f0;
+  }

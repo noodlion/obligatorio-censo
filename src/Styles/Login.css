@@ -10,8 +10,7 @@ html {
  font-family: 'lato', sans-serif;
  color: #fff;
  background: #222222;
- background: -webkit-linear-gradient(to top, #16222A , #3A6073); /* Chrome 10-25, Safari 5.1-6 */
- background: linear-gradient(to top, #16222A , #3A6073); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
  }
 
 .container {
