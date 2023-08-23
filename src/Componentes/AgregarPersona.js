@@ -28,10 +28,7 @@ const AgregarPersona = () => {
   const departamentos = useSelector((state) => state.departamentos.data);
   const ciudades = useSelector((state) => state.ciudades.ciudades);
   const ocupaciones = useSelector((state) => state.ocupaciones.data);
-  const personasCensadas = useSelector((state) => state.personas.personas);
-
   
-  const [contador, setContador] = useState(personasCensadas.length);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [ciudadesFiltradas, setCiudadesFiltradas] = useState([]);
